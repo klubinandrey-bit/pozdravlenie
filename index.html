@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Поздравление</title>
-  <!-- Подключаем округлый и дружелюбный шрифт Nunito из Google Fonts -->
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Marck+Script&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -48,7 +48,7 @@
       color: #3a3632;
     }
 
-    /* Фоновый декоративный слой со звездочками и конфетти */
+    /* Декор фона */
     .decor-layer {
       position: fixed;
       inset: 0;
@@ -81,14 +81,17 @@
       animation: twinkleSparkle 3.2s ease-in-out infinite;
     }
 
-    /* Основной контейнер страницы */
+    /* Карточка */
     .container {
       position: relative; z-index: 1; width: 100%; max-width: 820px;
       background: linear-gradient(145deg, #fff6ea 0%, #fdebf2 52%, #eaf5ff 100%) padding-box,
                   linear-gradient(135deg, #ffb46e, #ff9ebb, #90dbf4) border-box;
       border: 2px solid transparent; border-radius: 30px; padding: 28px;
       box-shadow: 0 18px 42px rgba(140, 120, 100, 0.13);
+      opacity: 0; transform: translate3d(0, 22px, 0) scale(0.9);
+      transition: opacity 1.5s ease 0.65s, transform 2.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
     }
+    .container.revealed { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 
     /* Карусель */
     .carousel-wrapper {
@@ -110,26 +113,12 @@
     .carousel-slide {
       min-width: 100%;
       aspect-ratio: 16 / 10;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       user-select: none;
-    }
-
-    /* Стили для реальных фотографий с размытым фоном по бокам */
-    .carousel-slide {
-      overflow: hidden;
-    }
-
-    .carousel-slide .slide-bg { display: none;
-      position: absolute;
-      inset: -20px;
-      background-size: cover;
-      background-position: center;
-      filter: blur(18px) brightness(0.92);
-      transform: scale(1.1);
-      z-index: 0;
     }
 
     .carousel-slide img {
@@ -142,29 +131,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    /* Стили для заглушек (placeholder) */
-    .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background: linear-gradient(145deg, #f9f6f0, #efe8dc);
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
-
-    .photo-placeholder svg {
-      width: 48px;
-      height: 48px;
-      stroke: var(--accent-color);
-      opacity: 0.75;
-    }
-
-    /* Кнопки навигации (стрелки) */
+    /* Стрелки карусели */
     .carousel-btn {
       position: absolute;
       top: 50%;
@@ -228,42 +195,6 @@
       background: var(--accent-color);
     }
 
-    /* Всплывающая подсказка «Листай» поверх фото у края */
-    .swipe-hint {
-      display: none;
-      position: absolute;
-      top: 50%;
-      right: 12px;
-      transform: translateY(-50%);
-      z-index: 5;
-      background: rgba(255, 255, 255, 0.86);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      color: #4a443e;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 8px 13px;
-      border-radius: 999px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
-      pointer-events: none;
-      animation: hintPulse 2.2s ease-in-out infinite;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .swipe-hint.left {
-      right: auto;
-      left: 12px;
-    }
-
-    .swipe-hint.hidden {
-      opacity: 0 !important;
-      pointer-events: none;
-    }
-
-    @keyframes hintPulse {
-      0%, 100% { transform: translateY(-50%) translateX(0); }
-      50% { transform: translateY(-50%) translateX(-5px); }
-    }
 
     .greeting-text-slot {
       margin-top: 18px; padding: 20px 22px 18px; text-align: center;
@@ -275,18 +206,11 @@
       content: ""; display: block; width: 56px; height: 4px; margin: 0 auto 8px;
       border-radius: 999px; background: linear-gradient(90deg, #f4a261, #ff9ebb, #90dbf4);
     }
-    .greeting-title {
-      font-family: 'Exo 2', 'Nunito', sans-serif; font-size: 2.12rem; font-weight: 700;
-      letter-spacing: 0.02em; margin-bottom: 14px; line-height: 1.2; transition: opacity 0.25s ease;
-      background: linear-gradient(95deg, #c86d28, #c94f7c, #4b86b4);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #c87a32;
-    }
     .greeting-poem {
       font-family: 'Exo 2', 'Nunito', sans-serif; font-size: 1.48rem; overflow-wrap: break-word; font-weight: 500;
       letter-spacing: 0.015em; line-height: 1.62; color: #2b2622; white-space: pre-line;
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
-    .carousel-slide.is-changing img { opacity: 0.2; transform: scale(0.96); }
     .text-fading { opacity: 0; transform: translateY(8px) scale(0.985); }
     .greeting-sign {
       display: inline-block; margin-top: 18px; padding: 5px 14px; border-radius: 999px;
@@ -297,22 +221,21 @@
       body { padding: 18px 12px; justify-content: center; }
       .sparkle-item, .decor-item { filter: none !important; animation: none !important; }
       .sparkle-item { display: none; }
-      .swipe-hint, .music-toggle { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255,255,255,0.95); }
-      .container { width: 100%; padding: 12px 12px 20px; border-radius: 26px; box-shadow: 0 12px 28px rgba(140,125,105,0.14); }
+      .music-toggle { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255,255,255,0.95); }
+      .card-top-title { font-size: 2rem; margin-bottom: 10px; }
+      .music-toggle { top: 10px; right: 12px; }
+      .container { width: 100%; margin-top: 38px; padding: 12px 12px 20px; border-radius: 26px; box-shadow: 0 12px 28px rgba(140,125,105,0.14); }
       .carousel-wrapper { border-radius: 18px; }
       .carousel-slide { aspect-ratio: 4 / 3; }
-      .carousel-slide .slide-bg { display: none; filter: blur(10px) brightness(0.92); }
       .carousel-btn { display: none; }
-      .swipe-hint { display: block; }
       .carousel-dots { margin-top: 12px; padding: 0 10px; gap: 6px; flex-wrap: wrap; }
       .dot { width: 7px; height: 7px; }
       .dot.active { width: 20px; }
       .greeting-text-slot { margin-top: 14px; padding: 10px 14px 12px; border-radius: 18px; height: 345px; overflow-y: auto; }
-      .greeting-title { font-size: 1.75rem; margin-bottom: 10px; }
       .greeting-poem { font-size: 1.04rem !important; line-height: 1.42 !important; overflow-wrap: break-word; }
     }
 
-    /* Кнопка управления фоновой музыкой */
+    /* Кнопка музыки */
     .music-toggle {
       position: fixed;
       top: 16px;
@@ -350,7 +273,7 @@
       color: #b86f28;
     }
 
-    /* Постепенное раскрытие шторок (GPU transform/opacity, 60fps) */
+    /* Стартовый экран и шторки */
     .cover-screen {
       position: fixed; inset: 0; z-index: 50; display: flex;
       align-items: center; justify-content: center; padding: 24px; text-align: center; overflow: hidden;
@@ -391,19 +314,14 @@
       box-shadow: 0 12px 26px rgba(244, 140, 110, 0.42); transition: transform 0.2s ease;
     }
     .open-card-btn:active { transform: scale(0.95); }
-    .container {
-      opacity: 0; transform: translate3d(0, 22px, 0) scale(0.9);
-      transition: opacity 1.5s ease 0.65s, transform 2.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
-    }
-    .container.revealed { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+
     .card-top-title {
       font-family: 'Marck Script', cursive; font-size: 2.35rem; font-weight: 400;
       text-align: center; line-height: 1.15; margin-bottom: 14px;
       background: linear-gradient(95deg, #c86d28, #c94f7c, #4b86b4);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #c87a32;
     }
-    @media (max-width: 768px), (pointer: coarse) { .card-top-title { font-size: 2rem; margin-bottom: 10px; } .container { margin-top: 38px !important; } .music-toggle { top: 10px !important; right: 12px !important; } }
-    .pass-input {
+        .pass-input {
       width: 100%; padding: 13px 18px; margin-bottom: 10px; border-radius: 999px;
       border: 2px solid rgba(224, 159, 90, 0.45); background: rgba(255, 255, 255, 0.92);
       font-family: 'Exo 2', sans-serif; font-size: 16px; text-align: center; color: #3a3632;
@@ -447,15 +365,13 @@
   </button>
 
 
-  <!-- Декоративные элементы фона (звездочки и конфетти) -->
+  <!-- Декор фона -->
   <div class="decor-layer" aria-hidden="true">
-    <!-- Мягкие полупрозрачные круги боке для глубины -->
     <div style="position:absolute; top:14%; left:18%; width:90px; height:90px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.45) 0%, transparent 70%);"></div>
     <div style="position:absolute; bottom:18%; right:19%; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.45) 0%, transparent 70%);"></div>
     <div style="position:absolute; top:56%; left:14%; width:75px; height:75px; border-radius:50%; background:radial-gradient(circle, rgba(255,214,138,0.28) 0%, transparent 70%);"></div>
     <div style="position:absolute; top:38%; right:15%; width:85px; height:85px; border-radius:50%; background:radial-gradient(circle, rgba(255,158,187,0.26) 0%, transparent 70%);"></div>
 
-    <!-- Воздушные шарики по краям -->
     <svg class="decor-item" style="top: 7%; left: 4%; width: 50px; opacity: 0.72; animation-delay: 0.3s;" viewBox="0 0 64 96" fill="none">
       <ellipse cx="32" cy="30" rx="21" ry="26" fill="#ff9ebb"/>
       <ellipse cx="24" cy="20" rx="4.5" ry="8" transform="rotate(-20 24 20)" fill="#ffffff" fill-opacity="0.6"/>
@@ -481,7 +397,6 @@
       <path d="M32 60 C36 70, 28 80, 32 92" stroke="#a68db5" stroke-width="1.6" stroke-linecap="round"/>
     </svg>
 
-    <!-- Лёгкий серпантин по бокам -->
     <svg class="decor-item" style="top: 24%; left: 13%; width: 28px; opacity: 0.65; animation-delay: 0.7s;" viewBox="0 0 40 60" fill="none">
       <path d="M20 4 C32 10, 8 18, 22 26 C34 33, 10 42, 20 55" stroke="#ff9ebb" stroke-width="2.6" stroke-linecap="round"/>
     </svg>
@@ -495,7 +410,6 @@
       <path d="M20 4 C8 10, 32 18, 18 26 C6 33, 30 42, 20 55" stroke="#cdb4db" stroke-width="2.6" stroke-linecap="round"/>
     </svg>
 
-    <!-- Звёздочки, сердечки и конфетти -->
     <svg class="decor-item" style="top: 15%; left: 17%; width: 20px; opacity: 0.65; animation-delay: 0.5s;" viewBox="0 0 24 24" fill="#f3c677">
       <path d="M12 2l2.4 7.4h7.6l-6.2 4.5 2.4 7.4-6.2-4.5-6.2 4.5 2.4-7.4-6.2-4.5h7.6z"/>
     </svg>
@@ -521,7 +435,6 @@
       <circle cx="12" cy="12" r="7"/>
     </svg>
 
-    <!-- Мерцающие искорки -->
     <svg class="sparkle-item" style="top: 12%; left: 25%; width: 17px; animation-delay: 0.2s;" viewBox="0 0 24 24" fill="#ffbe0b">
       <path d="M12 0L14.8 9.2L24 12L14.8 14.8L12 24L9.2 14.8L0 12L9.2 9.2Z"/>
     </svg>
@@ -544,58 +457,48 @@
 
   <main class="container">
     <h1 class="card-top-title">С Днём Рождения!</h1>
-    <!-- КАРУСЕЛЬ С ФОТОГРАФИЯМИ -->
+    <!-- Карусель -->
     <div class="carousel-wrapper" id="carousel">
       <div class="carousel-track" id="carouselTrack">
         
-        <!-- СЛАЙД 1 -->
         <div class="carousel-slide">
           <img decoding="async" src="photo1.jpg" alt="Фото 1">
         </div>
 
-        <!-- СЛАЙД 2 -->
         <div class="carousel-slide">
           <img decoding="async" src="photo2.jpg" alt="Фото 2">
         </div>
 
-        <!-- СЛАЙД 3 -->
         <div class="carousel-slide">
           <img decoding="async" src="photo3.jpg" alt="Фото 3">
         </div>
 
-        <!-- СЛАЙД 4 -->
         <div class="carousel-slide">
           <img decoding="async" src="photo4.jpg" alt="Фото 4">
         </div>
 
-        <!-- СЛАЙД 5 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo5.jpg" alt="Фото 5" decoding="async">
+          <img decoding="async" src="photo5.jpg" alt="Фото 5">
         </div>
 
-        <!-- СЛАЙД 6 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo6.jpg" alt="Фото 6" decoding="async">
+          <img decoding="async" src="photo6.jpg" alt="Фото 6">
         </div>
 
-        <!-- СЛАЙД 7 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo7.jpg" alt="Фото 7" decoding="async">
+          <img decoding="async" src="photo7.jpg" alt="Фото 7">
         </div>
 
-        <!-- СЛАЙД 8 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo8.jpg" alt="Фото 8" decoding="async">
+          <img decoding="async" src="photo8.jpg" alt="Фото 8">
         </div>
 
-        <!-- СЛАЙД 9 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo9.jpg" alt="Фото 9" decoding="async">
+          <img decoding="async" src="photo9.jpg" alt="Фото 9">
         </div>
 
-        <!-- СЛАЙД 10 -->
         <div class="carousel-slide">
-          <img decoding="async" src="photo10.jpg" alt="Фото 10" decoding="async">
+          <img decoding="async" src="photo10.jpg" alt="Фото 10">
         </div>
 
         
@@ -616,13 +519,10 @@
       </button>
     </div>
 
-    <!-- Точки-индикаторы (генерируются автоматически через JS под любое количество слайдов) -->
+    <!-- Индикаторы слайдов -->
     <div class="carousel-dots" id="carouselDots"></div>
 
-    <!-- =====================================================================
-         МЕСТО ДЛЯ БУДУЩЕГО ТЕКСТА ПОЗДРАВЛЕНИЯ
-         Вставьте сюда заголовок (<h1>/<h2>) и абзацы (<p>) с текстом, когда он будет готов.
-         ===================================================================== -->
+    <!-- Текст поздравления -->
     <section class="greeting-text-slot" aria-label="Блок для текста поздравления">
       <p class="greeting-poem" id="greetingPoem">Марина Николаевна, мы к вам пришли,
 Чтоб в этот день рожденья слова свои нашли.
@@ -665,14 +565,14 @@
       const dots = Array.from(dotsContainer.children);
 
       slides.forEach((slide) => {
-        const img = slide.querySelector('img');
+        const img = slide.firstElementChild;
         if (img && img.decode) img.decode().catch(() => {});
       });
 
       const swipeHint = document.getElementById('swipeHint');
       const greetingPoem = document.getElementById('greetingPoem');
 
-      // Стихи для каждого слайда (1–15). Замените на свои тексты для каждого фото:
+      // Тексты поздравлений по слайдам
       const poemsData = [
   { poem: `Марина Николаевна, мы к вам пришли,
 Чтоб в этот день рожденья слова свои нашли.
@@ -718,8 +618,8 @@
 Пионерские сборы, костры и походы,
 И песни, что пели в любую погоду.
 Насыщенно жили — и в зной, и в мороз,
-И каждый из нас в своём сердце берёг.` }
-  ,{ poem: `То поколение — с крепкой душой,
+И каждый из нас в своём сердце берёг.` },
+  { poem: `То поколение — с крепкой душой,
 С открытым сердцем и чистой мечтой.
 Они не боялись ни бурь, ни преград,
 И в семьдесят лет — тот же ясный взгляд.
@@ -835,7 +735,7 @@
         isDragging = false;
       });
 
-      // === Фоновая музыка (автостарт по первому касанию + кнопка) ===
+      // Аудиоплеер
       const bgMusic = document.getElementById('bgMusic');
       const musicBtn = document.getElementById('musicBtn');
       const musicIcon = document.getElementById('musicIcon');
@@ -843,7 +743,7 @@
       let musicStarted = false;
 
       if (bgMusic && musicBtn) {
-        const START_SEC = 60; // <-- Припев Юрия Шатунова «С днём рождения» (~1:00)
+        const START_SEC = 60; // Старт с припева (сек.)
         bgMusic.volume = 0.65;
         bgMusic.currentTime = START_SEC;
 
@@ -859,21 +759,9 @@
           musicLabel.textContent = isPlaying ? 'Пауза' : 'Музыка';
         }
 
-        function startOnFirstInteraction() {
-          if (musicStarted) return;
-          bgMusic.play().then(() => {
-            musicStarted = true;
-            updateMusicUI(true);
-            cleanupInteractionListeners();
-          }).catch(() => {});
-        }
-
-        function cleanupInteractionListeners() {}
-
         musicBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           musicStarted = true;
-          cleanupInteractionListeners();
           if (bgMusic.paused) {
             bgMusic.play().then(() => updateMusicUI(true)).catch(() => {});
           } else {
@@ -883,7 +771,7 @@
         });
       }
 
-      // === Открытие шторок + мгновенный запуск музыки ===
+      // Авторизация и открытие карточки
       const coverScreen = document.getElementById('coverScreen');
       const openCardBtn = document.getElementById('openCardBtn');
       const mainCard = document.querySelector('.container');
@@ -900,7 +788,6 @@
             return;
           }
           if (passError) passError.textContent = '';
-          if (typeof startMusic === 'function') startMusic(); else if (typeof unlockAudio === 'function') unlockAudio();
           if (passInput) passInput.blur();
           window.scrollTo(0, 0);
           if (bgMusic && bgMusic.paused) {
@@ -908,8 +795,7 @@
             bgMusic.play().then(() => {
               musicStarted = true;
               updateMusicUI(true);
-              cleanupInteractionListeners();
-            }).catch(() => {});
+                }).catch(() => {});
           }
           coverScreen.classList.add('opened');
           mainCard.classList.add('revealed');
