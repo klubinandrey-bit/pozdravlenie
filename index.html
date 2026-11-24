@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Поздравление</title>
   <!-- Подключаем округлый и дружелюбный шрифт Nunito из Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -383,7 +383,7 @@
       font-family: 'Marck Script', cursive; font-size: 2.35rem; font-weight: 400;
       color: #c46224; line-height: 1.18; margin-bottom: 12px;
     }
-    .cover-sub { font-size: 1.05rem; color: #756a60; margin-bottom: 26px; line-height: 1.45; }
+    .cover-sub { font-size: 16px; color: #756a60; margin-bottom: 26px; line-height: 1.45; }
     .open-card-btn {
       padding: 16px 32px; border: none; border-radius: 999px; cursor: pointer;
       font-family: 'Exo 2', sans-serif; font-size: 1.18rem; font-weight: 700; color: #fff;
@@ -402,11 +402,11 @@
       background: linear-gradient(95deg, #c86d28, #c94f7c, #4b86b4);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #c87a32;
     }
-    @media (max-width: 768px), (pointer: coarse) { .card-top-title { font-size: 2rem; margin-bottom: 10px; } }
+    @media (max-width: 768px), (pointer: coarse) { .card-top-title { font-size: 2rem; margin-bottom: 10px; } .container { margin-top: 38px !important; } .music-toggle { top: 10px !important; right: 12px !important; } }
     .pass-input {
       width: 100%; padding: 13px 18px; margin-bottom: 10px; border-radius: 999px;
       border: 2px solid rgba(224, 159, 90, 0.45); background: rgba(255, 255, 255, 0.92);
-      font-family: 'Exo 2', sans-serif; font-size: 1.05rem; text-align: center; color: #3a3632;
+      font-family: 'Exo 2', sans-serif; font-size: 16px; text-align: center; color: #3a3632;
       outline: none; transition: border-color 0.25s ease, transform 0.2s ease;
     }
     .pass-input:focus { border-color: #f48fb1; }
@@ -874,15 +874,7 @@
           }).catch(() => {});
         }
 
-        function cleanupInteractionListeners() {
-          ['pointerdown', 'touchstart', 'click', 'keydown'].forEach((evt) => {
-            document.removeEventListener(evt, startOnFirstInteraction);
-          });
-        }
-
-        ['pointerdown', 'touchstart', 'click', 'keydown'].forEach((evt) => {
-          document.addEventListener(evt, startOnFirstInteraction, { passive: true });
-        });
+        function cleanupInteractionListeners() {}
 
         musicBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -901,13 +893,7 @@
       const coverScreen = document.getElementById('coverScreen');
       const openCardBtn = document.getElementById('openCardBtn');
       const mainCard = document.querySelector('.container');
-      if (bgMusic && bgMusic.paused) {
-        bgMusic.play().then(() => {
-          musicStarted = true;
-          updateMusicUI(true);
-          cleanupInteractionListeners();
-        }).catch(() => {});
-      }
+      
       if (openCardBtn && coverScreen && mainCard) {
         const passInput = document.getElementById('passInput');
         const passError = document.getElementById('passError');
@@ -920,6 +906,9 @@
             return;
           }
           if (passError) passError.textContent = '';
+          if (typeof startMusic === 'function') startMusic(); else if (typeof unlockAudio === 'function') unlockAudio();
+          if (passInput) passInput.blur();
+          window.scrollTo(0, 0);
           if (bgMusic && bgMusic.paused) {
             bgMusic.currentTime = Math.max(bgMusic.currentTime, 60);
             bgMusic.play().then(() => {
