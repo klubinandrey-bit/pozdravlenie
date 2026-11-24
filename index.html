@@ -403,6 +403,27 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #c87a32;
     }
     @media (max-width: 768px), (pointer: coarse) { .card-top-title { font-size: 2rem; margin-bottom: 10px; } }
+    .pass-input {
+      width: 100%; padding: 13px 18px; margin-bottom: 10px; border-radius: 999px;
+      border: 2px solid rgba(224, 159, 90, 0.45); background: rgba(255, 255, 255, 0.92);
+      font-family: 'Exo 2', sans-serif; font-size: 1.05rem; text-align: center; color: #3a3632;
+      outline: none; transition: border-color 0.25s ease, transform 0.2s ease;
+    }
+    .pass-input:focus { border-color: #f48fb1; }
+    .pass-input.shake { animation: passShake 0.36s ease; border-color: #e63946; }
+    @keyframes passShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+    .pass-error { min-height: 20px; font-size: 0.9rem; font-weight: 700; color: #d64550; margin-bottom: 10px; }
+    .swipe-guide {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 6;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 9px 18px; border-radius: 20px; background: rgba(25, 22, 32, 0.58);
+      color: #fff; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .swipe-guide.hidden { opacity: 0; }
+    .swipe-arrows { font-size: 0.72rem; letter-spacing: 6px; opacity: 0.85; }
+    .swipe-hand { font-size: 1.75rem; line-height: 1; animation: handSwipe 1.6s ease-in-out infinite; }
+    .swipe-text { font-family: 'Exo 2', sans-serif; font-size: 0.86rem; font-weight: 700; letter-spacing: 0.06em; }
+    @keyframes handSwipe { 0%,100%{transform:translateX(-12px) rotate(-6deg)} 50%{transform:translateX(12px) rotate(6deg)} }
   </style>
 </head>
 <body>
@@ -413,6 +434,8 @@
       <div class="cover-emoji">💌</div>
       <div class="cover-title">Для Вас особенный сюрприз!</div>
       <div class="cover-sub">Нажмите кнопку ниже, чтобы открыть поздравление</div>
+      <input class="pass-input" id="passInput" type="text" placeholder="Девичья фамилия..." autocomplete="off">
+      <div class="pass-error" id="passError"></div>
       <button class="open-card-btn" id="openCardBtn" type="button">Открыть открытку ✨</button>
     </div>
   </div>
@@ -585,7 +608,7 @@
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
-      <div class="swipe-hint" id="swipeHint">Листай →</div>
+      <div class="swipe-guide" id="swipeHint"><div class="swipe-arrows">◀ ▶</div><div class="swipe-hand">👉</div><div class="swipe-text">ЛИСТАЙ</div></div>
       <button class="carousel-btn next" id="nextBtn" aria-label="Следующее фото">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
@@ -886,7 +909,17 @@
         }).catch(() => {});
       }
       if (openCardBtn && coverScreen && mainCard) {
+        const passInput = document.getElementById('passInput');
+        const passError = document.getElementById('passError');
+        if (passInput) passInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') openCardBtn.click(); });
         openCardBtn.addEventListener('click', () => {
+          const val = (passInput ? passInput.value : '').trim().toLowerCase().replace(/ё/g, 'е');
+          if (val !== 'шарго') {
+            if (passError) passError.textContent = 'Неверная фамилия, попробуйте ещё раз';
+            if (passInput) { passInput.classList.remove('shake'); void passInput.offsetWidth; passInput.classList.add('shake'); passInput.focus(); }
+            return;
+          }
+          if (passError) passError.textContent = '';
           if (bgMusic && bgMusic.paused) {
             bgMusic.currentTime = Math.max(bgMusic.currentTime, 60);
             bgMusic.play().then(() => {
