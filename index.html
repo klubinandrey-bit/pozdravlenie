@@ -104,7 +104,7 @@
     .carousel-track {
       display: flex;
       transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-      will-change: transform;
+      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
 
     .carousel-slide {
@@ -139,7 +139,7 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.22));
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
     /* Стили для заглушек (placeholder) */
@@ -267,12 +267,12 @@
 
     .greeting-text-slot {
       margin-top: 18px; padding: 20px 22px 18px; text-align: center;
-      min-height: 310px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      height: 345px; overflow-y: auto; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
       background: linear-gradient(160deg, rgba(255,255,255,0.68) 0%, rgba(255,244,236,0.62) 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
       border-radius: 22px; border: 1px solid rgba(224, 159, 90, 0.25);
     }
     .greeting-text-slot::before {
-      content: ""; display: block; width: 56px; height: 4px; margin: 0 auto 14px;
+      content: ""; display: block; width: 56px; height: 4px; margin: 0 auto 8px;
       border-radius: 999px; background: linear-gradient(90deg, #f4a261, #ff9ebb, #90dbf4);
     }
     .greeting-title {
@@ -295,7 +295,7 @@
     }
     @media (max-width: 768px), (pointer: coarse) {
       body { padding: 18px 12px; justify-content: center; }
-      .sparkle-item, .decor-item { filter: none !important; }
+      .sparkle-item, .decor-item { filter: none !important; animation: none !important; }
       .sparkle-item { display: none; }
       .swipe-hint, .music-toggle { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255,255,255,0.95); }
       .container { width: 100%; padding: 12px 12px 20px; border-radius: 26px; box-shadow: 0 12px 28px rgba(140,125,105,0.14); }
@@ -307,9 +307,9 @@
       .carousel-dots { margin-top: 12px; padding: 0 10px; gap: 6px; flex-wrap: wrap; }
       .dot { width: 7px; height: 7px; }
       .dot.active { width: 20px; }
-      .greeting-text-slot { margin-top: 14px; padding: 16px 14px 14px; border-radius: 18px; min-height: 310px; }
+      .greeting-text-slot { margin-top: 14px; padding: 10px 14px 12px; border-radius: 18px; height: 345px; overflow-y: auto; }
       .greeting-title { font-size: 1.75rem; margin-bottom: 10px; }
-      .greeting-poem { font-size: 1.32rem; line-height: 1.54; overflow-wrap: break-word; }
+      .greeting-poem { font-size: 1.04rem !important; line-height: 1.42 !important; overflow-wrap: break-word; }
     }
 
     /* Кнопка управления фоновой музыкой */
@@ -357,7 +357,7 @@
     }
     .cover-screen.opened { pointer-events: none; }
     .curtain {
-      position: absolute; top: 0; bottom: 0; width: 51%; z-index: 1; will-change: transform;
+      position: absolute; top: 0; bottom: 0; width: 51%; z-index: 1; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
       transition: transform 2.5s cubic-bezier(0.25, 0.05, 0.15, 1) 0.25s;
     }
     .curtain-left {
@@ -419,7 +419,7 @@
       padding: 9px 18px; border-radius: 20px; background: rgba(25, 22, 32, 0.58);
       color: #fff; pointer-events: none; transition: opacity 0.4s ease;
     }
-    .swipe-guide.hidden { opacity: 0; }
+    .swipe-guide.hidden { opacity: 0; animation: none !important; display: none; }
     .swipe-arrows { font-size: 0.72rem; letter-spacing: 6px; opacity: 0.85; }
     .swipe-hand { font-size: 1.75rem; line-height: 1; animation: handSwipe 1.6s ease-in-out infinite; }
     .swipe-text { font-family: 'Exo 2', sans-serif; font-size: 0.86rem; font-weight: 700; letter-spacing: 0.06em; }
@@ -550,52 +550,52 @@
         
         <!-- СЛАЙД 1 -->
         <div class="carousel-slide">
-          <img src="photo1.jpg" alt="Фото 1">
+          <img decoding="async" src="photo1.jpg" alt="Фото 1">
         </div>
 
         <!-- СЛАЙД 2 -->
         <div class="carousel-slide">
-          <img src="photo2.jpg" alt="Фото 2">
+          <img decoding="async" src="photo2.jpg" alt="Фото 2">
         </div>
 
         <!-- СЛАЙД 3 -->
         <div class="carousel-slide">
-          <img src="photo3.jpg" alt="Фото 3">
+          <img decoding="async" src="photo3.jpg" alt="Фото 3">
         </div>
 
         <!-- СЛАЙД 4 -->
         <div class="carousel-slide">
-          <img src="photo4.jpg" alt="Фото 4">
+          <img decoding="async" src="photo4.jpg" alt="Фото 4">
         </div>
 
         <!-- СЛАЙД 5 -->
         <div class="carousel-slide">
-          <img src="photo5.jpg" alt="Фото 5" loading="lazy">
+          <img decoding="async" src="photo5.jpg" alt="Фото 5" decoding="async">
         </div>
 
         <!-- СЛАЙД 6 -->
         <div class="carousel-slide">
-          <img src="photo6.jpg" alt="Фото 6" loading="lazy">
+          <img decoding="async" src="photo6.jpg" alt="Фото 6" decoding="async">
         </div>
 
         <!-- СЛАЙД 7 -->
         <div class="carousel-slide">
-          <img src="photo7.jpg" alt="Фото 7" loading="lazy">
+          <img decoding="async" src="photo7.jpg" alt="Фото 7" decoding="async">
         </div>
 
         <!-- СЛАЙД 8 -->
         <div class="carousel-slide">
-          <img src="photo8.jpg" alt="Фото 8" loading="lazy">
+          <img decoding="async" src="photo8.jpg" alt="Фото 8" decoding="async">
         </div>
 
         <!-- СЛАЙД 9 -->
         <div class="carousel-slide">
-          <img src="photo9.jpg" alt="Фото 9" loading="lazy">
+          <img decoding="async" src="photo9.jpg" alt="Фото 9" decoding="async">
         </div>
 
         <!-- СЛАЙД 10 -->
         <div class="carousel-slide">
-          <img src="photo10.jpg" alt="Фото 10" loading="lazy">
+          <img decoding="async" src="photo10.jpg" alt="Фото 10" decoding="async">
         </div>
 
         
@@ -664,15 +664,9 @@
 
       const dots = Array.from(dotsContainer.children);
 
-      // Подставляем размытый фон из самой фотографии для каждого слайда с фото
       slides.forEach((slide) => {
         const img = slide.querySelector('img');
-        if (img) {
-          const bg = document.createElement('div');
-          bg.className = 'slide-bg';
-          bg.style.backgroundImage = `url("${img.getAttribute('src')}")`;
-          slide.insertBefore(bg, img);
-        }
+        if (img && img.decode) img.decode().catch(() => {});
       });
 
       const swipeHint = document.getElementById('swipeHint');
@@ -782,7 +776,7 @@
       }
 
       function updateCarousel() {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        track.style.transform = `translate3d(-${currentIndex * 100}%, 0, 0)`;
         dots.forEach((dot, index) => {
           dot.classList.toggle('active', index === currentIndex);
         });
